@@ -16,9 +16,9 @@ import StorageKeys from "../constant/StorageKeys"
 export default function AuthScreen({ navigation }) {
   const doInOrder = (isLogin) => {
     if (isLogin) {
-      navigation.push("PasswordList")
+      navigation.replace("Pin")
     } else {
-      navigation.push("Login")
+      navigation.replace("Login")
     }
   }
 
@@ -33,12 +33,8 @@ export default function AuthScreen({ navigation }) {
   }
 
   useEffect(() => {
-    const focused = navigation.addListener("focus", () => {
-      authUser()
-    })
-
-    return focused
-  }, [navigation])
+    authUser()
+  }, [])
 
   return (
     <View

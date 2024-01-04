@@ -6,6 +6,7 @@ const Input = ({
   title,
   multiline,
   style,
+  inputStyle,
   value,
   setValue,
   id,
@@ -32,8 +33,9 @@ const Input = ({
           borderWidth: 2,
           borderRadius: 8,
           color: "#fff",
+          ...inputStyle
         }}
-        keyboardType={keyboardType ? keyboardType : "text"}
+        keyboardType={keyboardType ? keyboardType : "default"}
       />
 
       <View

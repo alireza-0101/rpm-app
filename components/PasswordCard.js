@@ -10,7 +10,13 @@ import Colors from "../constant/Colors"
 import { Ionicons } from "@expo/vector-icons"
 import * as Clipboard from "expo-clipboard"
 
-export default function PasswordCard({ title, username, password }) {
+export default function PasswordCard({
+  id,
+  title,
+  username,
+  password,
+  onDelete,
+}) {
   const copyToClipboard = async (value) => {
     const ONE_SECOND_IN_MS = 50
 
@@ -42,18 +48,36 @@ export default function PasswordCard({ title, username, password }) {
           paddingVertical: 20,
           backgroundColor: Colors.background,
           borderRadius: 10,
-          marginBottom: 20,
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          gap: 10,
+          alignItems: "center",
         }}
       >
-        <Text
+        <Ionicons name="lock-open-outline" size={24} color={Colors.text} />
+
+        <View
           style={{
-            color: "#fff",
-            fontWeight: "bold",
-            fontSize: 16,
+            flexDirection: "row-reverse",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flex: 1,
           }}
         >
-          {title}
-        </Text>
+          <TouchableOpacity onPress={() => onDelete(id)}>
+            <Ionicons name="trash-outline" size={20} color={Colors.red} />
+          </TouchableOpacity>
+
+          <Text
+            style={{
+              color: Colors.text,
+              fontWeight: "bold",
+              fontSize: 22,
+            }}
+          >
+            {title}
+          </Text>
+        </View>
       </View>
 
       <View
@@ -61,22 +85,25 @@ export default function PasswordCard({ title, username, password }) {
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
-          marginBottom: 10,
+          paddingHorizontal: 15,
+          paddingVertical: 20,
+          backgroundColor: Colors.light_background,
+          borderRadius: 10,
         }}
       >
         <Text
           style={{
-            color: "#fff",
+            color: Colors.text,
             textAlign: "left",
             fontWeight: "bold",
-            fontSize: 16,
+            fontSize: 14,
           }}
         >
           {username}
         </Text>
 
         <TouchableOpacity onPress={() => copyToClipboard(username)}>
-          <Ionicons name="copy-outline" size={24} color="#fff" />
+          <Ionicons name="copy-outline" size={24} color={Colors.text} />
         </TouchableOpacity>
       </View>
 
@@ -85,22 +112,25 @@ export default function PasswordCard({ title, username, password }) {
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
-          marginBottom: 10,
+          paddingHorizontal: 15,
+          paddingVertical: 20,
+          backgroundColor: Colors.light_background,
+          borderRadius: 10,
         }}
       >
         <Text
           style={{
-            color: "#fff",
+            color: Colors.text,
             textAlign: "left",
             fontWeight: "bold",
-            fontSize: 16,
+            fontSize: 14,
           }}
         >
           {password}
         </Text>
 
         <TouchableOpacity onPress={() => copyToClipboard(password)}>
-          <Ionicons name="copy-outline" size={24} color="#fff" />
+          <Ionicons name="copy-outline" size={24} color={Colors.text} />
         </TouchableOpacity>
       </View>
     </View>

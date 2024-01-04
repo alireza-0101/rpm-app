@@ -13,6 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import StorageKeys from "../constant/StorageKeys"
 
 const SET_INPUT = "SET_INPUT"
+const RESET_INPUTS = "RESET_INPUTS"
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -23,17 +24,25 @@ const reducer = (state, action) => {
       }
     }
 
+    case RESET_INPUTS: {
+      return {
+        title: "",
+        username: "",
+        password: "",
+      }
+    }
+
     default: {
       return state
     }
   }
 }
 
-export default function LoginScreen({ navigation }) {
+export default function AddPasswordScreen({ navigation }) {
   const [state, dispatch] = useReducer(reducer, {
-    name: "",
-    email: "",
-    pin: "",
+    title: "",
+    username: "",
+    password: "",
   })
 
   const inputChangeHandler = useCallback(
@@ -43,27 +52,30 @@ export default function LoginScreen({ navigation }) {
     [dispatch]
   )
 
-  const submitDetailes = async () => {
-    if (
-      state.name.trim() != "" &&
-      state.email.trim() != "" &&
-      state.pin.length >= 4 &&
-      state.email.includes("@")
-    ) {
-      try {
-        await AsyncStorage.setItem(StorageKeys.name, state.name)
-        await AsyncStorage.setItem(StorageKeys.email, state.email)
-        await AsyncStorage.setItem(StorageKeys.pin, state.pin)
-        ToastAndroid.show("Your Detailes saved.", ToastAndroid.SHORT)
+  const goToList = () => {
+    navigation.navigate("PasswordList")
+  }
 
-        navigation.replace("PasswordList")
-      } catch (error) {
-        ToastAndroid.show("Oh! Try Again...", ToastAndroid.SHORT)
-        console.error(error)
-      }
-    } else {
-      ToastAndroid.show("Write Your Currect Detailes!", ToastAndroid.SHORT)
+  const submitDetailes = async () => {
+    let last_passwords_json = await AsyncStorage.getItem(StorageKeys.passwords)
+    let last_passwords = await JSON.parse(last_passwords_json)
+
+    let new_password = {
+      id: `RPM_${Date.now()}`,
+      title: state.title,
+      username: state.username,
+      password: state.password,
     }
+
+    let new_passwords_arr = last_passwords ? [...last_passwords] : []
+    new_passwords_arr.push(new_password)
+
+    let new_passwords_arr_json = JSON.stringify(new_passwords_arr)
+
+    await AsyncStorage.setItem(StorageKeys.passwords, new_passwords_arr_json)
+
+    goToList()
+    dispatch({ type: RESET_INPUTS })
   }
 
   return (
@@ -86,30 +98,30 @@ export default function LoginScreen({ navigation }) {
           marginBottom: 10,
         }}
       >
-        Welocome!
+        Add Password
       </Text>
 
       <Input
-        title="Your Name"
-        value={state.name}
-        id="name"
+        title="Password Title"
+        value={state.title}
+        id="title"
         setValue={inputChangeHandler}
       />
 
       <Input
-        title="Restore Email"
-        value={state.email}
-        id="email"
+        title="Username OR Email"
+        value={state.username}
+        id="username"
         setValue={inputChangeHandler}
         keyboardType="email-address"
       />
 
       <Input
-        title="Your Pin"
-        value={state.pin}
-        id="pin"
+        title="Password"
+        value={state.password}
+        id="password"
         setValue={inputChangeHandler}
-        keyboardType="numeric"
+        keyboardType="visible-password"
       />
 
       <TouchableOpacity
@@ -130,7 +142,7 @@ export default function LoginScreen({ navigation }) {
             textAlign: "center",
           }}
         >
-          Get Start Now!
+          Insert Password
         </Text>
       </TouchableOpacity>
     </View>
@@ -144,5 +156,6 @@ export const screenOptions = {
     backgroundColor: Colors.header,
   },
   headerTitle: "",
+  headerRight: HeaderRight,
   headerBackButtonMenuEnabled: false,
 }
