@@ -1,5 +1,6 @@
 export default Colors = {
   text: "#f1f1f1",
+  light_text: "#e3e3e3e3",
   primary: "#2F80ED",
   red: "#EE312090",
   light_red: "#EB2D1D40",

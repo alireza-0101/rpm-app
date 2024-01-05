@@ -13,6 +13,7 @@ import {
 import Colors from "../constant/Colors"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useNavigation } from "@react-navigation/native"
+import StorageKeys from "../constant/StorageKeys"
 
 const SET_SHOW_MENU = "SET_SHOW_MENU"
 
@@ -81,34 +82,35 @@ export function HeaderRight() {
     })
   }
 
-  const clodeMenu = () => {
+  const closeMenu = () => {
     dispatch({
       type: SET_SHOW_MENU,
       value: false,
     })
   }
 
-  const navigateToSetting = () => {
-    clodeMenu()
-  }
-
   const navigateToList = () => {
-    clodeMenu()
+    closeMenu()
     navigation.navigate("PasswordList")
   }
 
+  const navigateToSettings = () => {
+    closeMenu()
+    navigation.navigate("Settings")
+  }
+
   const navigateToAddNew = () => {
-    clodeMenu()
+    closeMenu()
     navigation.navigate("AddPassword")
   }
 
   const lock = () => {
-    clodeMenu()
+    closeMenu()
     navigation.replace("Pin")
   }
 
   const logOut = async () => {
-    clodeMenu()
+    closeMenu()
 
     const ONE_SECOND_IN_MS = 50
 
@@ -137,9 +139,10 @@ export function HeaderRight() {
           <Ionicons name="menu" size={30} color={Colors.text} />
         </TouchableOpacity>
       </View>
+      
       <Modal animationType="fade" transparent={true} visible={state.isOpenMenu}>
         <TouchableOpacity
-          onPress={clodeMenu}
+          onPress={closeMenu}
           style={{
             width: "100%",
             height: "100%",
@@ -222,7 +225,7 @@ export function HeaderRight() {
               </TouchableOpacity>
 
               <TouchableOpacity
-                onPress={navigateToSetting}
+                onPress={navigateToSettings}
                 style={{
                   flexDirection: "row",
                   justifyContent: "flex-start",
@@ -263,7 +266,7 @@ export function HeaderRight() {
                   alignItems: "center",
                   paddingHorizontal: 15,
                   paddingVertical: 20,
-                  backgroundColor: Colors.light_background,
+                  backgroundColor: Colors.light_red,
                   borderRadius: 10,
                 }}
               >
@@ -287,7 +290,7 @@ export function HeaderRight() {
                 </Text>
               </TouchableOpacity>
 
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 onPress={logOut}
                 style={{
                   flexDirection: "row",
@@ -318,10 +321,10 @@ export function HeaderRight() {
                 >
                   Logout
                 </Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
 
               <TouchableOpacity
-                onPress={clodeMenu}
+                onPress={closeMenu}
                 style={{
                   flexDirection: "row",
                   justifyContent: "center",

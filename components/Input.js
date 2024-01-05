@@ -11,6 +11,7 @@ const Input = ({
   setValue,
   id,
   keyboardType,
+  customTitleColor,
 }) => {
   return (
     <View style={{ width: "100%", position: "relative", ...style }}>
@@ -33,14 +34,14 @@ const Input = ({
           borderWidth: 2,
           borderRadius: 8,
           color: "#fff",
-          ...inputStyle
+          ...inputStyle,
         }}
         keyboardType={keyboardType ? keyboardType : "default"}
       />
 
       <View
         style={{
-          backgroundColor: Colors.background,
+          backgroundColor: customTitleColor || Colors.background,
           position: "absolute",
           top: -7,
           left: 20,

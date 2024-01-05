@@ -23,6 +23,10 @@ import AuthScreen, {
   screenOptions as AuthScreenOptions,
 } from "./screens/AuthScreen"
 
+import SettingsScreen, {
+  screenOptions as SettingsScreenOptions,
+} from "./screens/SettingsScreen"
+
 export default function App() {
   const Stack = createNativeStackNavigator()
 
@@ -57,6 +61,12 @@ export default function App() {
           name="AddPassword"
           component={AddPasswordScreen}
           options={AddPasswordScreenOptions}
+        />
+
+        <Stack.Screen
+          name="Settings"
+          component={SettingsScreen}
+          options={SettingsScreenOptions}
         />
       </Stack.Navigator>
     </NavigationContainer>

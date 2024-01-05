@@ -436,7 +436,7 @@ export default function PinScreen({ navigation }) {
           }}
           onPress={() => setNumber("BACK_SPACE")}
         >
-          <Ionicons name="ios-arrow-undo-outline" size={40} color="#fff" />
+          <Ionicons name="backspace-outline" size={40} color="#fff" />
         </TouchableOpacity>
       </View>
     </View>

@@ -38,7 +38,7 @@ export default function PasswordListScreen({ navigation }) {
 
     dispatch({
       type: SET_PASSWORDS,
-      value: passwords.reverse(),
+      value: passwords ? passwords.reverse() : [],
     })
   }
 
@@ -98,7 +98,7 @@ export default function PasswordListScreen({ navigation }) {
         </View>
       )}
 
-      {state.passwords.length > 0 && (
+      {state.passwords?.length > 0 && (
         <FlatList
           showsVerticalScrollIndicator={false}
           data={state.passwords}
