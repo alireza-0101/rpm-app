@@ -15,6 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import StorageKeys from "../constant/StorageKeys"
 import { Ionicons } from "@expo/vector-icons"
 import * as Clipboard from "expo-clipboard"
+import InputNote from "../components/InputNote"
 
 const SET_INPUT = "SET_INPUT"
 const SET_DETAILES = "SET_DETAILES"
@@ -301,6 +302,14 @@ export default function SettingsScreen({ navigation }) {
         </TouchableOpacity>
       </View>
 
+      <InputNote
+        icon="warning-outline"
+        title="Warning"
+        wrapperStyle={{ marginTop: 20 }}
+        backgroundColor={Colors.light_red}
+        content="When you hit Replay, all your current passwords will be deleted and cannot be recovered! To add the imported data to the current list and not delete anything, click on import."
+      />
+
       <View
         style={{
           width: "100%",
@@ -309,7 +318,7 @@ export default function SettingsScreen({ navigation }) {
           backgroundColor: Colors.header,
           borderRadius: 10,
           gap: 20,
-          marginTop: 20,
+          marginTop: 10,
         }}
       >
         <View
@@ -400,6 +409,14 @@ export default function SettingsScreen({ navigation }) {
         </View>
       </View>
 
+      <InputNote
+        icon="warning-outline"
+        title="Warning"
+        wrapperStyle={{ marginTop: 20 }}
+        backgroundColor={Colors.light_red}
+        content="Do not make any changes in the export output so that you don't have problems during import."
+      />
+
       <View
         style={{
           width: "100%",
@@ -408,7 +425,7 @@ export default function SettingsScreen({ navigation }) {
           backgroundColor: Colors.header,
           borderRadius: 10,
           gap: 20,
-          marginTop: 20,
+          marginTop: 10,
         }}
       >
         <View
@@ -456,15 +473,23 @@ export default function SettingsScreen({ navigation }) {
         </TouchableOpacity>
       </View>
 
+      <InputNote
+        icon="warning-outline"
+        title="Warning"
+        wrapperStyle={{ marginTop: 20 }}
+        backgroundColor={Colors.light_red}
+        content="Once you delete your account, this account cannot be recovered in any way."
+      />
+
       <View
         style={{
           width: "100%",
           paddingHorizontal: 20,
           paddingVertical: 30,
-          backgroundColor: Colors.light_red,
+          backgroundColor: Colors.header,
           borderRadius: 10,
           gap: 20,
-          marginTop: 20,
+          marginTop: 10,
           marginBottom: 40,
         }}
       >

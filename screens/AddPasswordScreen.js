@@ -11,6 +11,7 @@ import Input from "../components/Input"
 import { useCallback, useEffect, useReducer } from "react"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import StorageKeys from "../constant/StorageKeys"
+import InputNote from "../components/InputNote"
 
 const SET_INPUT = "SET_INPUT"
 const RESET_INPUTS = "RESET_INPUTS"
@@ -89,17 +90,14 @@ export default function AddPasswordScreen({ navigation }) {
         gap: 20,
       }}
     >
-      <Text
-        style={{
-          color: "#fff",
-          fontWeight: "bold",
-          fontSize: 40,
-          textAlign: "center",
-          marginBottom: 10,
-        }}
-      >
-        Add Password
-      </Text>
+      <InputNote
+        icon="warning-outline"
+        title="Warning"
+        backgroundColor={Colors.light_red}
+        content="We do not have your passwords and as i said them save in your device, so when you uninstall our app, all of your passwords cleared from your device! be careful"
+      />
+
+      <InputNote icon="add-circle-outline" title="Add New password" />
 
       <Input
         title="Password Title"

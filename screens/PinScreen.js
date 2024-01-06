@@ -62,7 +62,7 @@ export default function PinScreen({ navigation }) {
       ]
 
       Vibration.vibrate(PATTERN)
-
+      inputChangeHandler("pin", "")
       ToastAndroid.show("It`s Wrong!", ToastAndroid.SHORT)
     }
   }

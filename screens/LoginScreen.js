@@ -1,5 +1,6 @@
 import {
   FlatList,
+  ScrollView,
   Text,
   ToastAndroid,
   TouchableOpacity,
@@ -11,6 +12,8 @@ import Input from "../components/Input"
 import { useCallback, useEffect, useReducer } from "react"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import StorageKeys from "../constant/StorageKeys"
+import InputNote from "../components/InputNote"
+import { isCurrectLoginData } from "../constant/Function"
 
 const SET_INPUT = "SET_INPUT"
 
@@ -44,12 +47,7 @@ export default function LoginScreen({ navigation }) {
   )
 
   const submitDetailes = async () => {
-    if (
-      state.name.trim() != "" &&
-      state.email.trim() != "" &&
-      state.pin.length >= 4 &&
-      state.email.includes("@")
-    ) {
+    if (isCurrectLoginData(state)) {
       try {
         await AsyncStorage.setItem(StorageKeys.name, state.name)
         await AsyncStorage.setItem(StorageKeys.email, state.email)
@@ -77,17 +75,11 @@ export default function LoginScreen({ navigation }) {
         gap: 20,
       }}
     >
-      <Text
-        style={{
-          color: "#fff",
-          fontWeight: "bold",
-          fontSize: 40,
-          textAlign: "center",
-          marginBottom: 10,
-        }}
-      >
-        Welocome!
-      </Text>
+      <InputNote
+        icon="body-outline"
+        title="Welocome!"
+        content="We will save your passwords in your device and no body can see that and your passwords do not share anywhere! don't worry"
+      />
 
       <Input
         title="Your Name"

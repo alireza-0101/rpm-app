@@ -5,6 +5,7 @@ import { HeaderLeft, HeaderRight } from "../components/Header"
 import { useEffect, useReducer } from "react"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import StorageKeys from "../constant/StorageKeys"
+import InputNote from "../components/InputNote"
 
 const SET_PASSWORDS = "SET_PASSWORDS"
 
@@ -38,7 +39,7 @@ export default function PasswordListScreen({ navigation }) {
 
     dispatch({
       type: SET_PASSWORDS,
-      value: passwords ? passwords.reverse() : [],
+      value: passwords || [],
     })
   }
 
@@ -75,27 +76,12 @@ export default function PasswordListScreen({ navigation }) {
       }}
     >
       {state.passwords.length === 0 && (
-        <View
-          style={{
-            backgroundColor: Colors.light_red,
-            width: "100%",
-            paddingHorizontal: 12,
-            paddingVertical: 20,
-            borderRadius: 8,
-            marginTop: 20,
-          }}
-        >
-          <Text
-            style={{
-              color: "#fff",
-              fontWeight: "bold",
-              fontSize: 16,
-              textAlign: "center",
-            }}
-          >
-            You Do Not Have Any Password!
-          </Text>
-        </View>
+        <InputNote
+          icon="apps-outline"
+          title="The list is empty!"
+          backgroundColor={Colors.header}
+          content="You can go to the add password section with the button below and add an item to this list from there."
+        />
       )}
 
       {state.passwords?.length > 0 && (

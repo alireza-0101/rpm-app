@@ -2,7 +2,7 @@
   "expo": {
     "name": "RPM",
     "slug": "RPM",
-    "version": "1.0.0",
+    "version": "1.1.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -18,9 +18,10 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#020621"
+        "backgroundColor": "#2F80ED"
       },
-      "package": "com.alirezamh.rpm"
+      "package": "com.smartbase.rpmcognitive",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"

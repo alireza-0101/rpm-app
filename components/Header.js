@@ -2,6 +2,7 @@ import { FontAwesome5, Ionicons, MaterialIcons } from "@expo/vector-icons"
 import React, { useReducer } from "react"
 import {
   Button,
+  Image,
   Modal,
   Text,
   ToastAndroid,
@@ -42,7 +43,7 @@ export function HeaderLeft() {
       3 * ONE_SECOND_IN_MS,
     ]
 
-    ToastAndroid.show("RPM Version 1.0.0", ToastAndroid.SHORT)
+    ToastAndroid.show("RPM Version 1.1.1", ToastAndroid.SHORT)
     Vibration.vibrate(PATTERN)
   }
 
@@ -51,19 +52,32 @@ export function HeaderLeft() {
       onPress={pressOnLogo}
       style={{
         flexDirection: "row",
-        gap: 10,
       }}
     >
-      <FontAwesome5 name="lock" size={24} color={Colors.primary} />
-      <Text
+      {/* <FontAwesome5 name="lock" size={24} color={Colors.primary} /> */}
+
+      <View
         style={{
-          color: Colors.primary,
-          fontWeight: "bold",
-          fontSize: 20,
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 8,
         }}
       >
-        RPM
-      </Text>
+        <Image
+          style={{ width: 40, height: 40 }}
+          source={require("../assets/logo.png")}
+        />
+
+        <Text
+          style={{
+            color: Colors.primary,
+            fontWeight: "bold",
+            fontSize: 20,
+          }}
+        >
+          RPM
+        </Text>
+      </View>
     </TouchableOpacity>
   )
 }
@@ -109,24 +123,6 @@ export function HeaderRight() {
     navigation.replace("Pin")
   }
 
-  const logOut = async () => {
-    closeMenu()
-
-    const ONE_SECOND_IN_MS = 50
-
-    const PATTERN = [
-      1 * ONE_SECOND_IN_MS,
-      2 * ONE_SECOND_IN_MS,
-      3 * ONE_SECOND_IN_MS,
-    ]
-
-    Vibration.vibrate(PATTERN)
-
-    await AsyncStorage.clear()
-
-    navigation.replace("Login")
-  }
-
   return (
     <>
       <View
@@ -139,7 +135,7 @@ export function HeaderRight() {
           <Ionicons name="menu" size={30} color={Colors.text} />
         </TouchableOpacity>
       </View>
-      
+
       <Modal animationType="fade" transparent={true} visible={state.isOpenMenu}>
         <TouchableOpacity
           onPress={closeMenu}
