@@ -35,7 +35,7 @@ const reducer = (state, action) => {
 
 export function HeaderLeft() {
   const pressOnLogo = () => {
-    const ONE_SECOND_IN_MS = 50
+    const ONE_SECOND_IN_MS = 500
 
     const PATTERN = [
       1 * ONE_SECOND_IN_MS,
@@ -43,7 +43,7 @@ export function HeaderLeft() {
       3 * ONE_SECOND_IN_MS,
     ]
 
-    ToastAndroid.show("RPM Version 1.1.1", ToastAndroid.SHORT)
+    ToastAndroid.show("RPM Version 1.1.4", ToastAndroid.SHORT)
     Vibration.vibrate(PATTERN)
   }
 

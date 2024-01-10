@@ -7,7 +7,6 @@ import {
 } from "react-native"
 import Colors from "../constant/Colors"
 import { HeaderLeft } from "../components/Header"
-import Input from "../components/Input"
 import { useCallback, useEffect, useReducer } from "react"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import StorageKeys from "../constant/StorageKeys"
@@ -85,6 +84,14 @@ export default function PinScreen({ navigation }) {
 
     inputChangeHandler("pin", `${must_insert}`)
   }
+
+  useEffect(() => {
+    navigation.addListener("beforeRemove", (event) => {
+      if (event.data.action.type === "GO_BACK") {
+        event.preventDefault()
+      }
+    })
+  }, [])
 
   useEffect(() => {
     if (state.pin.length >= 4) {

@@ -55,7 +55,6 @@ export default function AuthScreen({ navigation }) {
         style={{
           fontSize: 18,
           fontWeight: "200",
-          marginTop: 20,
           color: "#fff",
         }}
       >

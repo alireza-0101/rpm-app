@@ -1,5 +1,6 @@
 import {
   FlatList,
+  ScrollView,
   Text,
   ToastAndroid,
   TouchableOpacity,
@@ -58,11 +59,20 @@ export default function AddPasswordScreen({ navigation }) {
   }
 
   const submitDetailes = async () => {
+    if (
+      !state.title.trim() &&
+      !state.username.trim() &&
+      !state.password.trim()
+    ) {
+      ToastAndroid.show("Insert Value!", ToastAndroid.SHORT)
+      return false
+    }
+
     let last_passwords_json = await AsyncStorage.getItem(StorageKeys.passwords)
     let last_passwords = await JSON.parse(last_passwords_json)
 
     let new_password = {
-      id: `RPM_${Date.now()}`,
+      id: `RPM_${Date.now() * Math.floor(Math.random() * 10000)}`,
       title: state.title,
       username: state.username,
       password: state.password,
@@ -80,13 +90,17 @@ export default function AddPasswordScreen({ navigation }) {
   }
 
   return (
-    <View
+    <ScrollView
       style={{
         flex: 1,
+        backgroundColor: Colors.background,
+      }}
+      contentContainerStyle={{
+        backgroundColor: Colors.background,
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: Colors.background,
         padding: 20,
+        minHeight: "100%",
         gap: 20,
       }}
     >
@@ -143,7 +157,7 @@ export default function AddPasswordScreen({ navigation }) {
           Insert Password
         </Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   )
 }
 

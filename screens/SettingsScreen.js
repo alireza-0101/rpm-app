@@ -1,4 +1,5 @@
 import {
+  Alert,
   FlatList,
   ScrollView,
   Text,
@@ -16,6 +17,7 @@ import StorageKeys from "../constant/StorageKeys"
 import { Ionicons } from "@expo/vector-icons"
 import * as Clipboard from "expo-clipboard"
 import InputNote from "../components/InputNote"
+import { decrypt, encrypt } from "../constant/Function"
 
 const SET_INPUT = "SET_INPUT"
 const SET_DETAILES = "SET_DETAILES"
@@ -133,12 +135,27 @@ export default function SettingsScreen({ navigation }) {
   }
 
   const replaceData = async () => {
-    if (!state.importText.trim()) {
+    if (!state.importText) {
       ToastAndroid.show("Insert Value!", ToastAndroid.SHORT)
       return false
     }
 
-    await AsyncStorage.setItem(StorageKeys.passwords, state.importText)
+    let decrypted_imported_passwords = await decrypt(state.importText)
+
+    try {
+      if (!Array.isArray(JSON.parse(decrypted_imported_passwords))) {
+        ToastAndroid.show("Its not currect!", ToastAndroid.SHORT)
+        return false
+      }
+    } catch (error) {
+      ToastAndroid.show("Its not currect!", ToastAndroid.SHORT)
+      return false
+    }
+
+    await AsyncStorage.setItem(
+      StorageKeys.passwords,
+      decrypted_imported_passwords
+    )
 
     afterImport()
   }
@@ -151,25 +168,57 @@ export default function SettingsScreen({ navigation }) {
 
     let last_passwords_json = await AsyncStorage.getItem(StorageKeys.passwords)
     let last_passwords = await JSON.parse(last_passwords_json)
-    let imported_passwords = JSON.parse(state.importText)
 
     if (!last_passwords) {
       replaceData()
       return false
     }
 
+    let decrypted_imported_passwords = await decrypt(state.importText)
+
+    try {
+      if (!Array.isArray(JSON.parse(decrypted_imported_passwords))) {
+        ToastAndroid.show("Its not currect!", ToastAndroid.SHORT)
+        return false
+      }
+    } catch (error) {
+      ToastAndroid.show("Its not currect!", ToastAndroid.SHORT)
+      return false
+    }
+
+    let imported_passwords = JSON.parse(decrypted_imported_passwords)
+
     let new_passwords_arr = [...last_passwords, ...imported_passwords]
 
-    let new_passwords_arr_json = JSON.stringify(new_passwords_arr)
+    let changed_new_passwords_arr = [...new_passwords_arr].map((item) => {
+      let new_password = {
+        id: `RPM_${Date.now() * Math.floor(Math.random() * 10000)}`,
+        title: item.title,
+        username: item.username,
+        password: item.password,
+      }
 
-    await AsyncStorage.setItem(StorageKeys.passwords, new_passwords_arr_json)
+      return new_password
+    })
+
+    let changed_new_passwords_arr_json = JSON.stringify(
+      changed_new_passwords_arr
+    )
+
+    await AsyncStorage.setItem(
+      StorageKeys.passwords,
+      changed_new_passwords_arr_json
+    )
 
     afterImport()
   }
 
   const exportData = async () => {
     let passwords_json = await AsyncStorage.getItem(StorageKeys.passwords)
-    copyToClipboard(passwords_json)
+
+    let encrypted_passwords = await encrypt(passwords_json)
+
+    copyToClipboard(encrypted_passwords)
   }
 
   const deleteAllPasswords = async () => {
@@ -516,7 +565,16 @@ export default function SettingsScreen({ navigation }) {
         </View>
 
         <TouchableOpacity
-          onPress={deleteAllPasswords}
+          onPress={() => {
+            Alert.alert("Warning", "Are you sure to delete all passwords?", [
+              { text: "No!", style: "cancel", onPress: () => {} },
+              {
+                text: "Yes, Delete",
+                style: "destructive",
+                onPress: deleteAllPasswords,
+              },
+            ])
+          }}
           style={{
             backgroundColor: Colors.red,
             width: "100%",
@@ -538,7 +596,16 @@ export default function SettingsScreen({ navigation }) {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={logOut}
+          onPress={() => {
+            Alert.alert("Warning", "Are you sure to delete account?", [
+              { text: "No!", style: "cancel", onPress: () => {} },
+              {
+                text: "Yes, Delete",
+                style: "destructive",
+                onPress: logOut,
+              },
+            ])
+          }}
           style={{
             backgroundColor: Colors.red,
             width: "100%",

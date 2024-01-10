@@ -1,4 +1,13 @@
-import { Alert, FlatList, Text, TouchableOpacity, View } from "react-native"
+import {
+  Alert,
+  FlatList,
+  LayoutAnimation,
+  Text,
+  ToastAndroid,
+  TouchableOpacity,
+  Vibration,
+  View,
+} from "react-native"
 import Colors from "../constant/Colors"
 import PasswordCard from "../components/PasswordCard"
 import { HeaderLeft, HeaderRight } from "../components/Header"
@@ -51,6 +60,18 @@ export default function PasswordListScreen({ navigation }) {
     return focused
   }, [navigation])
 
+  const layoutAnimConfig = {
+    duration: 1000,
+    update: {
+      type: LayoutAnimation.Types.easeInEaseOut,
+    },
+    delete: {
+      duration: 100,
+      type: LayoutAnimation.Types.easeInEaseOut,
+      property: LayoutAnimation.Properties.opacity,
+    },
+  }
+
   const deleteItem = async (id) => {
     const last_passwords = [...state.passwords]
 
@@ -61,8 +82,11 @@ export default function PasswordListScreen({ navigation }) {
     const filtered_passwords_json = JSON.stringify(filtered_passwords)
 
     await AsyncStorage.setItem(StorageKeys.passwords, filtered_passwords_json)
-
-    getPasswords()
+    
+    await getPasswords()
+    
+    LayoutAnimation.configureNext(layoutAnimConfig.delete)
+    ToastAndroid.show("Deleted successfully!", ToastAndroid.SHORT)
   }
 
   return (

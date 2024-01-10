@@ -1,4 +1,5 @@
 import {
+  Alert,
   FlatList,
   ScrollView,
   Text,
@@ -13,7 +14,6 @@ import { useCallback, useEffect, useReducer } from "react"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import StorageKeys from "../constant/StorageKeys"
 import InputNote from "../components/InputNote"
-import { isCurrectLoginData } from "../constant/Function"
 
 const SET_INPUT = "SET_INPUT"
 
@@ -47,7 +47,11 @@ export default function LoginScreen({ navigation }) {
   )
 
   const submitDetailes = async () => {
-    if (isCurrectLoginData(state)) {
+    if (
+      state.name.trim() &&
+      state.pin.length >= 4 &&
+      /^.+@\w+\.\w{2,3}$/g.test(state.email)
+    ) {
       try {
         await AsyncStorage.setItem(StorageKeys.name, state.name)
         await AsyncStorage.setItem(StorageKeys.email, state.email)
@@ -63,6 +67,14 @@ export default function LoginScreen({ navigation }) {
       ToastAndroid.show("Write Your Currect Detailes!", ToastAndroid.SHORT)
     }
   }
+
+  useEffect(() => {
+    navigation.addListener("beforeRemove", (event) => {
+      if (event.data.action.type === "GO_BACK") {
+        event.preventDefault()
+      }
+    })
+  }, [])
 
   return (
     <View

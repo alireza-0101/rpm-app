@@ -1,26 +1,146 @@
-import AsyncStorage from "@react-native-async-storage/async-storage"
+const [key_encrypt, key_decrypt] = [
+  {
+    0: "1",
+    1: "9",
+    2: "4",
+    3: "2",
+    4: "8",
+    5: "0",
+    6: "3",
+    7: "5",
+    8: "6",
+    9: "7",
+    A: "j",
+    B: "a",
+    C: "W",
+    D: "P",
+    E: "q",
+    F: "R",
+    G: "z",
+    H: "A",
+    I: "f",
+    J: "H",
+    K: "u",
+    L: "t",
+    M: "T",
+    N: "K",
+    O: "l",
+    P: "B",
+    Q: "y",
+    R: "X",
+    S: "G",
+    T: "h",
+    U: "Z",
+    V: "m",
+    W: "E",
+    X: "c",
+    Y: "V",
+    Z: "w",
+    a: "C",
+    b: "e",
+    c: "U",
+    d: "S",
+    e: "s",
+    f: "i",
+    g: "I",
+    h: "n",
+    i: "D",
+    j: "b",
+    k: "F",
+    l: "J",
+    m: "L",
+    n: "g",
+    o: "d",
+    p: "M",
+    q: "N",
+    r: "p",
+    s: "O",
+    t: "Q",
+    u: "Y",
+    v: "k",
+    w: "o",
+    x: "r",
+    y: "v",
+    z: "x",
+  },
+  {
+    0: "5",
+    1: "0",
+    2: "3",
+    3: "6",
+    4: "2",
+    5: "7",
+    6: "8",
+    7: "9",
+    8: "4",
+    9: "1",
+    j: "A",
+    a: "B",
+    W: "C",
+    P: "D",
+    q: "E",
+    R: "F",
+    z: "G",
+    A: "H",
+    f: "I",
+    H: "J",
+    u: "K",
+    t: "L",
+    T: "M",
+    K: "N",
+    l: "O",
+    B: "P",
+    y: "Q",
+    X: "R",
+    G: "S",
+    h: "T",
+    Z: "U",
+    m: "V",
+    E: "W",
+    c: "X",
+    V: "Y",
+    w: "Z",
+    C: "a",
+    e: "b",
+    U: "c",
+    S: "d",
+    s: "e",
+    i: "f",
+    I: "g",
+    n: "h",
+    D: "i",
+    b: "j",
+    F: "k",
+    J: "l",
+    L: "m",
+    g: "n",
+    d: "o",
+    M: "p",
+    N: "q",
+    p: "r",
+    O: "s",
+    Q: "t",
+    Y: "u",
+    k: "v",
+    o: "w",
+    r: "x",
+    v: "y",
+    x: "z",
+  },
+]
 
-export const emailRegex = /^.+@\w+\.\w{2,3}$/g
-
-export const isCurrectLoginData = (state) => {
-  if (
-    state.name.trim() != "" &&
-    state.email.trim() != "" &&
-    state.pin.length >= 4 &&
-    emailRegex.test(state.email)
-  ) {
-    return true
+export const encrypt = async (term) => {
+  let result = term.split("")
+  for (let i = 0; i < result.length; i++) {
+    result[i] = key_encrypt[result[i]] ? key_encrypt[result[i]] : result[i]
   }
-
-  return false
+  return result.join("")
 }
 
-export const isLogin = async () => {
-  const name = await AsyncStorage.getItem(StorageKeys.name)
-  const email = await AsyncStorage.getItem(StorageKeys.email)
-  const pin = await AsyncStorage.getItem(StorageKeys.pin)
-
-  let isUserLogin = name && email && emailRegex.test(email) && pin.length >= 4
-
-  return isUserLogin
+export const decrypt = async (term) => {
+  let result = term.split("")
+  for (let i = 0; i < result.length; i++) {
+    result[i] = key_decrypt[result[i]] ? key_decrypt[result[i]] : result[i]
+  }
+  return result.join("")
 }
