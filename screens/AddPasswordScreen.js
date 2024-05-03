@@ -60,8 +60,8 @@ export default function AddPasswordScreen({ navigation }) {
 
   const submitDetailes = async () => {
     if (
-      !state.title.trim() &&
-      !state.username.trim() &&
+      !state.title.trim() ||
+      !state.username.trim() ||
       !state.password.trim()
     ) {
       ToastAndroid.show("Insert Value!", ToastAndroid.SHORT)
